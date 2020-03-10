@@ -1,0 +1,12 @@
+{
+	"name": "aurora02api",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"dev": "go run main.go",
+		"build": "CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build main.go"
+	},
+	"author": "",
+	"license": "ISC"
+}
