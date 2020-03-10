@@ -8,7 +8,7 @@ type SysUser struct {
 	ParentID string `gorm:"column:ParentID"`
 	PermissionControl string `gorm:"column:PermissionControl"`
 	Balance float64 `gorm:"column:Balance"`
-	Suspend string `gorm:"column:Suspend"`
+	Suspend bool `gorm:"column:Suspend"`
 	Class int
 }
 

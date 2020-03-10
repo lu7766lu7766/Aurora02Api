@@ -3,7 +3,7 @@ package service
 import (
 	DB "aurora02api/database"
 	"aurora02api/model"
-	// "fmt"
+	"math"
 )
 
 type SysLookoutService struct {}
@@ -70,8 +70,8 @@ func (this SysLookoutService) GetCallStatusContent(UserID string) map[string]int
 
 	var user model.SysUser
 	db.Where("UserID = ?", UserID).Find(&user)
-	res["balance"] = user.Balance
-	res["suspend"] = (user.Suspend != "1")
+	res["balance"] = math.Round(user.Balance*100)/100
+	res["suspend"] = !user.Suspend
 
 	// fmt.Println(res)
 
