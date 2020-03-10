@@ -33,10 +33,12 @@ func (this SysLookoutService) GetCallStatusContent(UserID string) map[string]int
 	//
 	var data2 []model.CallState
 	db.
+		Select("ExtensionNo, CalledId, CalloutGroupID, CallDuration, PingTime, Seat, NormalCall, OnMonitor").
 		Joins("left join RegisteredLogs on ExtensionNo = CustomerNO").
 		Where("CallDuration > 0").
 		Where("ExtensionNo <> '' or ExtensionNo is not null").
-		Where("UserID = ?", UserID).Find(&data2)
+		Where("UserID = ?", UserID).
+		Find(&data2)
 		// .Preload("RegisteredLogs")
 		// .Joins("left join RegisteredLogs on ExtensionNo = CustomerNO")
 		// .Rows()

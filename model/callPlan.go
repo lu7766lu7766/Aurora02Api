@@ -5,12 +5,13 @@ type CallPlan struct {
 	CallOutID string `gorm:"column:CallOutID"`
 	PlanName string `gorm:"column:PlanName"`
 	StartCalledNumber string `gorm:"column:StartCalledNumber"`
-	CalledCount string `gorm:"column:CalledCount"`
-	CalloutCount string `gorm:"column:CalloutCount"`
-	CallConCount string `gorm:"column:CallConCount"`
-	CallSwitchCount string `gorm:"column:CallSwitchCount"`
+	EndCalledNumber string `gorm:"column:EndCalledNumber"`
+	CalledCount int `gorm:"column:CalledCount"`
+	CalloutCount int `gorm:"column:CalloutCount"`
+	CallConCount int `gorm:"column:CallConCount"`
+	CallSwitchCount int `gorm:"column:CallSwitchCount"`
 	UseState bool `gorm:"column:UseState"`
-	NumberMode string `gorm:"column:NumberMode"`
+	NumberMode int `gorm:"column:NumberMode"`
 	CalloutGroupID string `gorm:"column:CalloutGroupID"`
 	ConcurrentCalls string `gorm:"column:ConcurrentCalls"`
 }
