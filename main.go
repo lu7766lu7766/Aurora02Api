@@ -35,4 +35,7 @@ func main() {
 	// log.Println("service running at " + host)
 	// log.Fatal(fasthttp.ListenAndServe(host, router.Handler))
 	router.Run(host)
+	// close gin logger
+	// gin.SetMode(gin.ReleaseMode)
+	// gin.DefaultWriter = ioutil.Discard
 }
