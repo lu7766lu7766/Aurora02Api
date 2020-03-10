@@ -9,7 +9,7 @@ type CallPlan struct {
 	CalloutCount string `gorm:"column:CalloutCount"`
 	CallConCount string `gorm:"column:CallConCount"`
 	CallSwitchCount string `gorm:"column:CallSwitchCount"`
-	UseState string `gorm:"column:UseState"`
+	UseState bool `gorm:"column:UseState"`
 	NumberMode string `gorm:"column:NumberMode"`
 	CalloutGroupID string `gorm:"column:CalloutGroupID"`
 	ConcurrentCalls string `gorm:"column:ConcurrentCalls"`

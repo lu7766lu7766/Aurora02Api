@@ -21,13 +21,13 @@ func (this SysLookoutService) GetCallStatusContent(UserID string) map[string]int
 
 	var data1 []model.CallState
 	db.
-		Select("CalledId", "CallDuration", "Seat", "NormalCall").
+		// Select("CalledId, CallDuration, Seat, NormalCall").
 		Where("CallDuration = 0").
 		Where("ExtensionNo = '' or ExtensionNo is null").
 		Where("UserID = ?", UserID).Find(&data1)
 
 	res["data1"] = data1
-
+	
 	// fmt.Println(res, data1)
 	//
 	//

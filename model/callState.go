@@ -5,10 +5,10 @@ type CallState struct {
 	CallDuration string `gorm:"column:CallDuration"`
 	Seat string `gorm:"column:Seat"`
 	NormalCall string `gorm:"column:NormalCall"`
-	ExtensionNo string `gorm:"column:ExtensionNo"`
-	CalloutGroupID string `gorm:"column:CalloutGroupID"`
-	OnMonitor string `gorm:"column:OnMonitor"`
-	RegisteredLogs []RegisteredLogs `gorm:"foreignkey:CustomerNO;association_foreignkey:ExtensionNo"`
+	// ExtensionNo string `gorm:"column:ExtensionNo"`
+	// CalloutGroupID string `gorm:"column:CalloutGroupID"`
+	// OnMonitor string `gorm:"column:OnMonitor"`
+	// RegisteredLogs []RegisteredLogs `gorm:"foreignkey:CustomerNO;association_foreignkey:ExtensionNo"`
 }
 
 func (CallState) TableName() string {
