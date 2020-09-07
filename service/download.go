@@ -1,42 +1,43 @@
 package service
 
 import (
-	DB "aurora02api/database"
-	"aurora02api/model"
+	DB "Aurora02Api/database"
+	"Aurora02Api/model"
+	"Aurora02Api/tools"
 	"fmt"
-	"github.com/nleeper/goment"
 	"os"
-	"aurora02api/tools"
 	"path"
+
+	"github.com/nleeper/goment"
 )
 
-type DownloadService struct {}
+type DownloadService struct{}
 
-func (this DownloadService) GetRecordFilePath(userID string, connectDate string , fileName string) string {
+func (this DownloadService) GetRecordFilePath(userID string, connectDate string, fileName string) string {
 	return fmt.Sprintf("D:\\Recording\\%s\\%s\\%s", userID, connectDate, fileName)
 }
 
 func (this DownloadService) GetRecordFile(
-		UserID string,
-		ConnectDate string,
-		FileName string) string {
+	UserID string,
+	ConnectDate string,
+	FileName string) string {
 	return this.GetRecordFilePath(UserID, ConnectDate, FileName)
 	// "/Users/lu7766/go/src/aurora02api/main.go"
 }
 
 func (this DownloadService) GetRecordFilesToZip(
-		UserID string,
-		CallStartBillingDate string,
-		CallStopBillingDate string,
-		ExtensionNo string,
-		OrgCalledID string,
-		DurationCondition string,
-		CallDuration string) string {
+	UserID string,
+	CallStartBillingDate string,
+	CallStopBillingDate string,
+	ExtensionNo string,
+	OrgCalledID string,
+	DurationCondition string,
+	CallDuration string) string {
 
 	db := DB.Connect()
 	defer db.Close()
 
-	emps := []string { UserID }
+	emps := []string{UserID}
 	sub_emp := UserService{}.GetSubEmp(UserID, 1)
 	for _, v := range sub_emp {
 		emps = append(emps, v.UserID)
@@ -88,13 +89,13 @@ func (this DownloadService) GetRecordFilesToZip(
 		}
 	}
 
-	fileName :=  UserID + "RecordFile.zip"
+	fileName := UserID + "RecordFile.zip"
 	filePath := path.Join(os.TempDir(), fileName)
 
 	err := tools.Compress(files, filePath)
 	if err != nil {
 		panic(err)
 	}
-	
+
 	return filePath
 }

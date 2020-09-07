@@ -1,12 +1,12 @@
 package service
 
 import (
-	DB "aurora02api/database"
-	"aurora02api/model"
+	DB "Aurora02Api/database"
+	"Aurora02Api/model"
 	"math"
 )
 
-type SysLookoutService struct {}
+type SysLookoutService struct{}
 
 func (this SysLookoutService) GetCallStatusContent(UserID string) map[string]interface{} {
 
@@ -18,7 +18,6 @@ func (this SysLookoutService) GetCallStatusContent(UserID string) map[string]int
 	var res map[string]interface{}
 	res = make(map[string]interface{})
 
-
 	var data1 []model.CallState
 	db.
 		// Select("CalledId, CallDuration, Seat, NormalCall").
@@ -27,7 +26,7 @@ func (this SysLookoutService) GetCallStatusContent(UserID string) map[string]int
 		Where("UserID = ?", UserID).Find(&data1)
 
 	res["data1"] = data1
-	
+
 	// fmt.Println(res, data1)
 	//
 	//
@@ -60,7 +59,7 @@ func (this SysLookoutService) GetCallStatusContent(UserID string) map[string]int
 	res["waitExtensionNoCount"] = waitExtensionNoCount
 
 	var extensionNoCount int
-	db.	
+	db.
 		Table("CallState").
 		Where("CallDuration > 0").
 		Where("ExtensionNo is not null or ExtensionNo <> ''").
@@ -70,7 +69,7 @@ func (this SysLookoutService) GetCallStatusContent(UserID string) map[string]int
 
 	var user model.SysUser
 	db.Where("UserID = ?", UserID).Find(&user)
-	res["balance"] = math.Round(user.Balance*100)/100
+	res["balance"] = math.Round(user.Balance*100) / 100
 	res["suspend"] = !user.Suspend
 
 	// fmt.Println(res)

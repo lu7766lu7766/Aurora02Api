@@ -1,11 +1,11 @@
 package service
 
 import (
-	DB "aurora02api/database"
-	"aurora02api/model"
+	DB "Aurora02Api/database"
+	"Aurora02Api/model"
 )
 
-type UserService struct {}
+type UserService struct{}
 
 func (this UserService) GetSubEmp(userID string, subLevel int) map[int]model.SysUser {
 	db := DB.Connect()
@@ -21,7 +21,7 @@ func (this UserService) GetSubEmp(userID string, subLevel int) map[int]model.Sys
 	// fmt.Println(users)
 
 	var (
-		i = 0
+		i   = 0
 		len = len(users)
 	)
 	for i < len {
