@@ -10,8 +10,6 @@ type SysLookoutService struct{}
 
 func (this SysLookoutService) GetCallStatusContent(UserID string) map[string]interface{} {
 
-	// fmt.Println(UserID)
-
 	db := DB.Connect()
 	defer db.Close()
 
@@ -27,20 +25,16 @@ func (this SysLookoutService) GetCallStatusContent(UserID string) map[string]int
 
 	res["data1"] = data1
 
-	// fmt.Println(res, data1)
-	//
-	//
+	
 	var data2 []model.CallState
 	db.
 		Select("ExtensionNo, CalledId, CalloutGroupID, CallDuration, PingTime, Seat, NormalCall, OnMonitor").
 		Joins("left join RegisteredLogs on ExtensionNo = CustomerNO").
-		Where("CallDuration > 0").
+		// Where("CallDuration > 0").
 		Where("ExtensionNo <> '' or ExtensionNo is not null").
 		Where("UserID = ?", UserID).
 		Find(&data2)
-		// .Preload("RegisteredLogs")
-		// .Joins("left join RegisteredLogs on ExtensionNo = CustomerNO")
-		// .Rows()
+		
 
 	res["data2"] = data2
 	//
@@ -71,8 +65,6 @@ func (this SysLookoutService) GetCallStatusContent(UserID string) map[string]int
 	db.Where("UserID = ?", UserID).Find(&user)
 	res["balance"] = math.Round(user.Balance*100) / 100
 	res["suspend"] = !user.Suspend
-
-	// fmt.Println(res)
 
 	return res
 }
