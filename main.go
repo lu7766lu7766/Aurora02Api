@@ -28,16 +28,5 @@ func main() {
 	router.POST("/sysLookout/ajaxCallStatusContent2", controller.SysLookoutController{}.AjaxCallStatusContent)
 	router.GET("/downloadFile/recordFile", controller.DownloadController{}.RecordFile)
 	router.GET("/downloadFile/recordFilesToZip", controller.DownloadController{}.RecordFilesToZip)
-	// router.GET("/test", controller.UserController{}.GetList)
-	// fmt.Println(controller.UserController{}.GetList())
-	// if err := fasthttp.ListenAndServe(host, router.Handler); err != nil {
-	// 	fmt.Println("start fasthttp fail:", err.Error())
-	// }
-
-	// log.Println("service running at " + host)
-	// log.Fatal(fasthttp.ListenAndServe(host, router.Handler))
 	router.Run(host)
-	// close gin logger
-	// gin.SetMode(gin.ReleaseMode)
-	// gin.DefaultWriter = ioutil.Discard
 }
