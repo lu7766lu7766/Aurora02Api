@@ -30,6 +30,7 @@ func (this SysLookoutService) GetCallStatusContent(UserID string) map[string]int
 		Select("ExtensionNo, CalledId, CalloutGroupID, CallDuration, PingTime, Seat, NormalCall, OnMonitor").
 		Joins("left join RegisteredLogs on ExtensionNo = CustomerNO").
 		Where("CallDuration > 0").
+		Or("CallDuration = 0 and ExtensionNo = 'system'").
 		// Where("ExtensionNo <> '' or ExtensionNo is not null").
 		Where("UserID = ?", UserID).
 		Find(&data2)
