@@ -1,3 +1,3 @@
-taskkill /f /im sukuan.exe /t
+taskkill /f /im main.exe /t
 git pull
-start sukuan.exe
+start main.exe
