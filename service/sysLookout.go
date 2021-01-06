@@ -19,23 +19,23 @@ func (this SysLookoutService) GetCallStatusContent(UserID string) map[string]int
 	var data1 []model.CallState
 	db.
 		// Select("CalledId, CallDuration, Seat, NormalCall").
-		Where("CallDuration = 0").
-		Where("ExtensionNo = '' or ExtensionNo is null").
+		// Where("CallDuration = 0").
+		// Where("ExtensionNo = '' or ExtensionNo is null").
 		Where("UserID = ?", UserID).Find(&data1)
 
 	res["data1"] = data1
 
-	var data2 []model.CallState
-	db.
-		Select("ExtensionNo, CalledId, CalloutGroupID, CallDuration, PingTime, Seat, NormalCall, OnMonitor").
-		Joins("left join RegisteredLogs on ExtensionNo = CustomerNO").
-		Where("CallDuration > 0 or ExtensionNo = 'system").
-		// Or("ExtensionNo = 'system'").
-		// Where("ExtensionNo <> '' or ExtensionNo is not null").
-		Where("UserID = ?", UserID).
-		Find(&data2)
+	// var data2 []model.CallState
+	// db.
+	// 	Select("ExtensionNo, CalledId, CalloutGroupID, CallDuration, PingTime, Seat, NormalCall, OnMonitor").
+	// 	Joins("left join RegisteredLogs on ExtensionNo = CustomerNO").
+	// 	Where("CallDuration > 0 or ExtensionNo = 'system").
+	// 	// Or("ExtensionNo = 'system'").
+	// 	// Where("ExtensionNo <> '' or ExtensionNo is not null").
+	// 	Where("UserID = ?", UserID).
+	// 	Find(&data2)
 
-	res["data2"] = data2
+	// res["data2"] = data2
 	//
 	var data3 []model.CallPlan
 	db.Where("UserID = ?", UserID).Find(&data3)
