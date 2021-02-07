@@ -1,8 +1,9 @@
-package service
+package DownloadService
 
 import (
-	DB "Aurora02Api/database"
+	db "Aurora02Api/database"
 	"Aurora02Api/model"
+	"Aurora02Api/service/UserService"
 	"Aurora02Api/tools"
 	"fmt"
 	"os"
@@ -11,21 +12,19 @@ import (
 	"github.com/nleeper/goment"
 )
 
-type DownloadService struct{}
-
-func (this DownloadService) GetRecordFilePath(userID string, connectDate string, fileName string) string {
+func GetRecordFilePath(userID string, connectDate string, fileName string) string {
 	return fmt.Sprintf("D:\\Recording\\%s\\%s\\%s", userID, connectDate, fileName)
 }
 
-func (this DownloadService) GetRecordFile(
+func GetRecordFile(
 	UserID string,
 	ConnectDate string,
 	FileName string) string {
-	return this.GetRecordFilePath(UserID, ConnectDate, FileName)
+	return GetRecordFilePath(UserID, ConnectDate, FileName)
 	// "/Users/lu7766/go/src/aurora02api/main.go"
 }
 
-func (this DownloadService) GetRecordFilesToZip(
+func GetRecordFilesToZip(
 	UserID string,
 	CallStartBillingDate string,
 	CallStopBillingDate string,
@@ -34,35 +33,32 @@ func (this DownloadService) GetRecordFilesToZip(
 	DurationCondition string,
 	CallDuration string) string {
 
-	db := DB.Connect()
-	defer db.Close()
-
 	emps := []string{UserID}
-	sub_emp := UserService{}.GetSubEmp(UserID, 1)
+	sub_emp := UserService.GetSubEmp(UserID, 1)
 	for _, v := range sub_emp {
 		emps = append(emps, v.UserID)
 	}
 
 	var callOutCDRs []model.CallOutCDR
-	db = db.Where("cast(CallStartBillingDate as datetime) between ? and ?", CallStartBillingDate, CallStopBillingDate).
+	db.Eloquent = db.Eloquent.Where("cast(CallStartBillingDate as datetime) between ? and ?", CallStartBillingDate, CallStopBillingDate).
 		Where("RecordFile <> ''").
 		Where("UserID in (?)", emps)
 	// .Debug()
 	if ExtensionNo != "" {
-		db = db.Where("ExtensionNo = ?", ExtensionNo)
+		db.Eloquent = db.Eloquent.Where("ExtensionNo = ?", ExtensionNo)
 	}
 	if OrgCalledID != "" {
-		db = db.Where("OrgCalledID = ?", OrgCalledID)
+		db.Eloquent = db.Eloquent.Where("OrgCalledID = ?", OrgCalledID)
 	}
 	if CallDuration != "" {
 		if DurationCondition == "within" {
-			db = db.Where("CallDuration <= ?", CallDuration)
+			db.Eloquent = db.Eloquent.Where("CallDuration <= ?", CallDuration)
 		} else {
-			db = db.Where("CallDuration > ?", CallDuration)
+			db.Eloquent = db.Eloquent.Where("CallDuration > ?", CallDuration)
 		}
 	}
 
-	query := db.Find(&callOutCDRs)
+	query := db.Eloquent.Find(&callOutCDRs)
 
 	if query.Error != nil {
 		panic(query.Error)
@@ -77,7 +73,7 @@ func (this DownloadService) GetRecordFilesToZip(
 	var files []*os.File
 	for _, data := range callOutCDRs {
 		moment, _ := goment.New(data.CallStartBillingDate, "YYYY/MM/DD")
-		path := this.GetRecordFilePath(data.UserID, moment.Format("YYYYMMDD"), data.RecordFile)
+		path := GetRecordFilePath(data.UserID, moment.Format("YYYYMMDD"), data.RecordFile)
 		if _, err := os.Stat(path); err == nil {
 			// path/to/whatever exists
 			file, err := os.Open(path)

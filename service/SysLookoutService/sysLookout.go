@@ -1,23 +1,18 @@
-package service
+package SysLookoutService
 
 import (
-	DB "Aurora02Api/database"
+	db "Aurora02Api/database"
 	"Aurora02Api/model"
 	"math"
 )
 
-type SysLookoutService struct{}
-
-func (this SysLookoutService) GetCallStatusContent(UserID string) map[string]interface{} {
-
-	db := DB.Connect()
-	defer db.Close()
+func GetCallStatusContent(UserID string) map[string]interface{} {
 
 	var res map[string]interface{}
 	res = make(map[string]interface{})
 
 	var data1 []model.CallState
-	db.
+	db.Eloquent.
 		// Select("CalledId, CallDuration, Seat, NormalCall").
 		// Where("CallDuration = 0").
 		// Where("ExtensionNo = '' or ExtensionNo is null").
@@ -38,12 +33,12 @@ func (this SysLookoutService) GetCallStatusContent(UserID string) map[string]int
 	// res["data2"] = data2
 	//
 	var data3 []model.CallPlan
-	db.Where("UserID = ?", UserID).Find(&data3)
+	db.Eloquent.Where("UserID = ?", UserID).Find(&data3)
 
 	res["data3"] = data3
 	//
 	var waitExtensionNoCount int
-	db.
+	db.Eloquent.
 		Table("CallState").
 		Where("CallDuration > 1").
 		Where("ExtensionNo = 'system'").
@@ -52,7 +47,7 @@ func (this SysLookoutService) GetCallStatusContent(UserID string) map[string]int
 	res["waitExtensionNoCount"] = waitExtensionNoCount
 
 	var extensionNoCount int
-	db.
+	db.Eloquent.
 		Table("CallState").
 		Where("CallDuration > 0").
 		Where("ExtensionNo is not null or ExtensionNo <> ''").
@@ -61,7 +56,7 @@ func (this SysLookoutService) GetCallStatusContent(UserID string) map[string]int
 	res["extensionNoCount"] = extensionNoCount
 
 	var user model.SysUser
-	db.Where("UserID = ?", UserID).Find(&user)
+	db.Eloquent.Where("UserID = ?", UserID).Find(&user)
 	res["balance"] = math.Round(user.Balance*100) / 100
 	res["suspend"] = !user.Suspend
 

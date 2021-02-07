@@ -1,16 +1,14 @@
-package controller
+package DownloadController
 
 import (
-	"Aurora02Api/service"
+	"Aurora02Api/service/DownloadService"
 	"Aurora02Api/tools"
 
 	"github.com/gin-gonic/gin"
 )
 
-type DownloadController struct{}
-
-func (this DownloadController) RecordFile(ctx *gin.Context) {
-	filePath := service.DownloadService{}.GetRecordFile(
+func RecordFile(ctx *gin.Context) {
+	filePath := DownloadService.GetRecordFile(
 		ctx.DefaultQuery("userId", ""),
 		ctx.DefaultQuery("connectDate", ""),
 		ctx.DefaultQuery("fileName", ""))
@@ -21,9 +19,9 @@ func (this DownloadController) RecordFile(ctx *gin.Context) {
 	}
 }
 
-func (this DownloadController) RecordFilesToZip(ctx *gin.Context) {
+func RecordFilesToZip(ctx *gin.Context) {
 
-	filePath := service.DownloadService{}.GetRecordFilesToZip(
+	filePath := DownloadService.GetRecordFilesToZip(
 		ctx.DefaultQuery("choice", ""),
 		ctx.DefaultQuery("callStartBillingDate", ""),
 		ctx.DefaultQuery("callStopBillingDate", ""),

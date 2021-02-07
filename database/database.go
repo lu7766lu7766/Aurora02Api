@@ -2,14 +2,18 @@ package database
 
 import (
 	"fmt"
-	"github.com/jinzhu/gorm"
-	"github.com/joho/godotenv"
 	"log"
 	"os"
-)
-import _ "github.com/jinzhu/gorm/dialects/mssql"
 
-func Connect() *gorm.DB {
+	"github.com/jinzhu/gorm"
+	"github.com/joho/godotenv"
+
+	_ "github.com/jinzhu/gorm/dialects/mssql"
+)
+
+var Eloquent *gorm.DB
+
+func init() {
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatal("Error loading .env file")
@@ -21,16 +25,18 @@ func Connect() *gorm.DB {
 	db_port := os.Getenv("DB_PORT")
 
 	var con string = fmt.Sprintf("sqlserver://%s:%s@%s:%s?database=%s;Initial Catalog=dbo;encrypt=disable;integrated security=SSPI", db_user, db_pwd, db_ip, db_port, db_name)
-	// var con string = fmt.Sprintf("server=%s;user id=%s;password=%s;port=%s;database=%s;encrypt=disable", db_ip, db_user, db_pwd, db_port, db_name)
-	// fmt.Println(con)
-	// gorm.DefaultTableNameHandler = func(db *gorm.DB, defaultTableName string) string {
-	// 	return "dbo." + defaultTableName 
-	// }
-	db, err := gorm.Open("mssql", con)
+	
+	Eloquent, err := gorm.Open("mssql", con)
+
 	if err != nil {
 		// panic("failed to connect database")
-		fmt.Println("error", err)
+		fmt.Println("db connect error %v", err)
 	}
+
+	if Eloquent.Error != nil {
+		fmt.Println("database error %v", Eloquent.Error)
+	}
+	fmt.Printf("%p, %T\n", Eloquent, Eloquent)
 	// db.SingularTable(true)
-	return db
+	// return db
 }
