@@ -18,15 +18,15 @@ func init() {
 	if err != nil {
 		log.Fatal("Error loading .env file")
 	}
-	db_ip := os.Getenv("DB_IP")
-	db_name := os.Getenv("DB_NAME")
-	db_user := os.Getenv("DB_USER")
-	db_pwd := os.Getenv("DB_PASSWORD")
-	db_port := os.Getenv("DB_PORT")
+	dbUser := os.Getenv("DB_USER")
+	dbPwd := os.Getenv("DB_PASSWORD")
+	dbIP := os.Getenv("DB_IP")
+	dbPort := os.Getenv("DB_PORT")
+	dbName := os.Getenv("DB_NAME")
 
-	var con string = fmt.Sprintf("sqlserver://%s:%s@%s:%s?database=%s;Initial Catalog=dbo;encrypt=disable;integrated security=SSPI", db_user, db_pwd, db_ip, db_port, db_name)
+	var con string = fmt.Sprintf("sqlserver://%s:%s@%s:%s?database=%s;Initial Catalog=dbo;encrypt=disable;integrated security=SSPI", dbUser, dbPwd, dbIP, dbPort, dbName)
 	
-	Eloquent, err := gorm.Open("mssql", con)
+	Eloquent, err = gorm.Open("mssql", con)
 
 	if err != nil {
 		// panic("failed to connect database")
@@ -36,7 +36,7 @@ func init() {
 	if Eloquent.Error != nil {
 		fmt.Println("database error %v", Eloquent.Error)
 	}
-	fmt.Printf("%p, %T\n", Eloquent, Eloquent)
+	// fmt.Printf("%p, %T\n", Eloquent, Eloquent)
 	// db.SingularTable(true)
 	// return db
 }

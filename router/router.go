@@ -23,7 +23,7 @@ func InitRouter() *gin.Engine {
 	}))
 	router.LoadHTMLGlob("view/*")
 	router.GET("/user/list", UserController.GetList)
-	router.POST("/sysLookout/ajaxCallStatusContent2", SysLookoutController.AjaxCallStatusContent)
+	router.POST("/sysLookout/ajaxCallStatusContent2", SysLookoutController.CallStatusContent)
 	router.GET("/downloadFile/recordFile", DownloadController.RecordFile)
 	router.GET("/downloadFile/recordFilesToZip", DownloadController.RecordFilesToZip)
 	return router

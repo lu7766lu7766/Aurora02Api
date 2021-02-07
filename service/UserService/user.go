@@ -3,7 +3,6 @@ package UserService
 import (
 	db "Aurora02Api/database"
 	"Aurora02Api/model"
-	"fmt"
 )
 
 func GetSubEmp(userID string, subLevel int) map[int]model.SysUser {
@@ -37,9 +36,7 @@ func GetSubEmp(userID string, subLevel int) map[int]model.SysUser {
 func GetList() []model.SysUser {
 	var users []model.SysUser
 	var err error
-	fmt.Printf("%p, %T\n", db.Eloquent, db.Eloquent)
 	if err = db.Eloquent.Find(&users).Error; err != nil {
-	// if query.Error != nil {
 		panic(err)
 	}
 	return users
